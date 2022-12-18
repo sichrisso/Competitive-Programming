@@ -1,27 +1,14 @@
-def findMaxLength(nums):
-    # c = Counter(nums)
-    # print(len(nums))
-    # print(c)
-    # limit = min(c.values())
-    limit = 3
-    dict = {0:0, 1:0}
-    l, r, output = 0, 0, 0
-    while r < len(nums):
-        if dict[nums[r]] <= limit:
-            if nums[r] == 1:
-                dict[1] += 1
-            else:
-                dict[0] += 1
-            r += 1
+def findMaxLength(self, nums: List[int]) -> int:
+    output, prefix = 0, -1
+    dict = {-1:-1}
+    for i in range(len(nums)):
+        if nums[i] == 0:
+            nums[i] = -1
+
+    for i in range(len(nums)):
+        prefix += nums[i]
+        if prefix in dict:
+            output = max(output, i- dict[prefix])
         else:
-            dict[nums[l]] -= 1
-            l += 1
-        if dict[0] == dict[1]:
-            output = max(output, dict[0] + dict[1])
+            dict[prefix] = i
     return output
-
-def main():
-    nums = [0,0,1,0,0,0,1,1]
-    findMaxLength(nums)
-
-main()
